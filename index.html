@@ -1,0 +1,44 @@
+---
+layout: default
+body_class: "home-template user"
+---
+{% include header.html %}
+{% for category in site.categories %}
+<a href="/kategoriat/{{ category[0] }}/" style="text-decoration: none;">{% if category[0] == 'aws' %}{{ category[0] | upcase }}{% else %}{{ category[0] | capitalize }}{% endif %}</a><br />
+{% endfor %}
+<div class="page-content">
+  <div class="wrapper">
+    <div class="home postItemsContainer">
+      {% for post in paginator.posts %}
+      <article class="{%comment%}post_class{%endcomment%}">
+	      <div class="articleContent">
+	        {% if post.thumbnail %}
+	        <div class="image-holder show">
+	          <a class="inner" style="background-image: url('{{ post.thumbnail }}');">
+	            <img src="{{ post.image }}">
+	          </a>
+	        </div>
+	        {% endif %}
+	        <div class="meta">
+	          <time datetime="{{ post.date | date: '%Y-%m-%d' }}">
+	            <a href="{{ post.url | prepend: site.baseurl }}">{{ post.date | date: "%B %-d, %Y" }}</a>
+	          </time>
+	        </div>
+	        <header>
+	          <h1><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h1>
+            {% for category in post.categories %}
+						<a href="/kategoriat/{{ category }}/">{{ category | capitalize }}</a><br />
+						{% endfor %}
+	        </header>
+	        <div class="text">
+	          <p>{{ post.excerpt }}</p>
+	          <a href="{{ post.url | prepend: site.baseurl }}" class="readmore">Continue Reading</a>
+	        </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% include pagination.html %}
+{% include footer.html %}
